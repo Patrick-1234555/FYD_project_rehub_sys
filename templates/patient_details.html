@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Details - {{ patient[1] }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: #4a5568;">Patient Details: {{ patient[1] }}</h2>
+        <a href="{{ url_for('doctor_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    
+    <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+        <div>
+            <h4 style="color: #4a5568; margin-bottom: 1rem;">Basic Information</h4>
+            <p><strong>Name:</strong> {{ patient[1] }}</p>
+            <p><strong>Age:</strong> {{ patient[2] }} years</p>
+            <p><strong>Release Date:</strong> {{ patient[4] }}</p>
+            <p><strong>Assigned Caregiver:</strong> {{ patient[5] }}</p>
+        </div>
+        <div>
+            <h4 style="color: #4a5568; margin-bottom: 1rem;">Medical Information</h4>
+            <p><strong>Condition:</strong> {{ patient[3] }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1.5rem; color: #4a5568;">Caregiver Feedback Reports</h3>
+    
+    {% if feedback_list %}
+    {% for feedback in feedback_list %}
+    <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; background: #f9f9f9;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h4 style="color: #4a5568;">Report by {{ feedback[9] }}</h4>
+            <span style="color: #718096; font-size: 0.9rem;">{{ feedback[8] }}</span>
+        </div>
+        
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+            <div>
+                <p><strong>Behavior Rating:</strong></p>
+                <div class="rating">
+                    <div class="rating-circle 
+                        {% if feedback[3] >= 5 %}rating-excellent
+                        {% elif feedback[3] >= 4 %}rating-good
+                        {% elif feedback[3] >= 3 %}rating-fair
+                        {% elif feedback[3] >= 2 %}rating-poor
+                        {% else %}rating-critical{% endif %}">
+                        {{ feedback[3] }}
+                    </div>
+                    <span>
+                        {% if feedback[3] >= 5 %}Excellent
+                        {% elif feedback[3] >= 4 %}Good
+                        {% elif feedback[3] >= 3 %}Fair
+                        {% elif feedback[3] >= 2 %}Poor
+                        {% else %}Critical{% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div>
+                <p><strong>Recovery Progress:</strong></p>
+                <div class="rating">
+                    <div class="rating-circle 
+                        {% if feedback[4] >= 5 %}rating-excellent
+                        {% elif feedback[4] >= 4 %}rating-good
+                        {% elif feedback[4] >= 3 %}rating-fair
+                        {% elif feedback[4] >= 2 %}rating-poor
+                        {% else %}rating-critical{% endif %}">
+                        {{ feedback[4] }}
+                    </div>
+                    <span>
+                        {% if feedback[4] >= 5 %}Excellent
+                        {% elif feedback[4] >= 4 %}Good
+                        {% elif feedback[4] >= 3 %}Fair
+                        {% elif feedback[4] >= 2 %}Poor
+                        {% else %}Critical{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+            <div>
+                <p><strong>Mobility Status:</strong> {{ feedback[5] }}</p>
+            </div>
+            <div>
+                <p><strong>Medication Compliance:</strong> {{ feedback[6] }}</p>
+            </div>
+            <div>
+                <p><strong>Mood Status:</strong> {{ feedback[7] }}</p>
+            </div>
+        </div>
+        
+        {% if feedback[8] %}
+        <div>
+            <p><strong>Additional Notes:</strong></p>
+            <p style="background: white; padding: 1rem; border-radius: 5px; border: 1px solid #e2e8f0; margin-top: 0.5rem;">{{ feedback[8] }}</p>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}
+    <p style="text-align: center; color: #718096; font-size: 1.1rem; padding: 2rem;">No feedback reports available for this patient yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

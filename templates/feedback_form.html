@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Feedback - {{ patient[1] }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: #4a5568;">Submit Feedback for {{ patient[1] }}</h2>
+        <a href="{{ url_for('caregiver_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    
+    <form method="POST" action="{{ url_for('submit_feedback') }}">
+        <input type="hidden" name="patient_id" value="{{ patient[0] }}">
+        
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div class="form-group">
+                <label for="behavior_rating">Behavior Rating (1-5):</label>
+                <select id="behavior_rating" name="behavior_rating" required>
+                    <option value="">Select rating...</option>
+                    <option value="5">5 - Excellent (Very cooperative, positive attitude)</option>
+                    <option value="4">4 - Good (Mostly cooperative, good mood)</option>
+                    <option value="3">3 - Fair (Sometimes cooperative, neutral mood)</option>
+                    <option value="2">2 - Poor (Often uncooperative, negative mood)</option>
+                    <option value="1">1 - Critical (Very uncooperative, concerning behavior)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="recovery_progress">Recovery Progress (1-5):</label>
+                <select id="recovery_progress" name="recovery_progress" required>
+                    <option value="">Select rating...</option>
+                    <option value="5">5 - Excellent (Significant improvement)</option>
+                    <option value="4">4 - Good (Noticeable improvement)</option>
+                    <option value="3">3 - Fair (Some improvement)</option>
+                    <option value="2">2 - Poor (Little to no improvement)</option>
+                    <option value="1">1 - Critical (Condition worsening)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="grid" style="grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group">
+                <label for="mobility_status">Mobility Status:</label>
+                <select id="mobility_status" name="mobility_status" required>
+                    <option value="">Select status...</option>
+                    <option value="Independent">Independent</option>
+                    <option value="Assisted">Needs Assistance</option>
+                    <option value="Limited">Limited Mobility</option>
+                    <option value="Bedridden">Bedridden</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="medication_compliance">Medication Compliance:</label>
+                <select id="medication_compliance" name="medication_compliance" required>
+                    <option value="">Select compliance...</option>
+                    <option value="Excellent">Excellent (Takes all medications on time)</option>
+                    <option value="Good">Good (Occasionally misses doses)</option>
+                    <option value="Fair">Fair (Sometimes forgets medications)</option>
+                    <option value="Poor">Poor (Frequently misses medications)</option>
+                    <option value="Non-compliant">Non-compliant (Refuses medications)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="mood_status">Mood Status:</label>
+                <select id="mood_status" name="mood_status" required>
+                    <option value="">Select mood...</option>
+                    <option value="Positive">Positive (Cheerful, motivated)</option>
+                    <option value="Neutral">Neutral (Stable mood)</option>
+                    <option value="Anxious">Anxious (Worried, restless)</option>
+                    <option value="Depressed">Depressed (Sad, withdrawn)</option>
+                    <option value="Agitated">Agitated (Irritable, frustrated)</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="additional_notes">Additional Notes and Observations:</label>
+            <textarea id="additional_notes" name="additional_notes" rows="6" 
+                      placeholder="Please provide detailed observations about the patient's condition, any incidents, improvements, concerns, or other relevant information that would help the doctor assess the patient's progress..."></textarea>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="submit" class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;">Submit Feedback Report</button>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #4a5568;">Patient Information</h3>
+    <div style="background: #f7fafc; padding: 1.5rem; border-radius: 8px;">
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <p><strong>Name:</strong> {{ patient[1] }}</p>
+            <p><strong>Age:</strong> {{ patient[2] }} years</p>
+            <p><strong>Condition:</strong> {{ patient[3] }}</p>
+            <p><strong>Release Date:</strong> {{ patient[4] }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

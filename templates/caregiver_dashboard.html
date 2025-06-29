@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Caregiver Dashboard{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2 style="margin-bottom: 1.5rem; color: #4a5568;">My Assigned Patients</h2>
+    
+    {% if patients %}
+    <div class="grid">
+        {% for patient in patients %}
+        <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; background: #f9f9f9;">
+            <h3 style="color: #4a5568; margin-bottom: 1rem;">{{ patient[1] }}</h3>
+            <p><strong>Age:</strong> {{ patient[2] }} years</p>
+            <p><strong>Condition:</strong> {{ patient[3] }}</p>
+            <p><strong>Release Date:</strong> {{ patient[4] }}</p>
+            <div style="margin-top: 1.5rem;">
+                <a href="{{ url_for('submit_feedback_form', patient_id=patient[0]) }}" class="btn">Submit Feedback Report</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="text-align: center; color: #718096; font-size: 1.1rem;">No patients assigned to you yet.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #4a5568;">Feedback Guidelines</h3>
+    <div style="background: #f0f8ff; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #667eea;">
+        <h4 style="margin-bottom: 1rem; color: #4a5568;">What to observe and report:</h4>
+        <ul style="margin-left: 1.5rem; line-height: 1.6;">
+            <li><strong>Behavior:</strong> Patient's cooperation, mood changes, social interaction</li>
+            <li><strong>Recovery Progress:</strong> Improvement in physical abilities, pain levels</li>
+            <li><strong>Mobility:</strong> Walking, movement, balance, use of assistive devices</li>
+            <li><strong>Medication:</strong> Compliance with prescribed medications</li>
+            <li><strong>Mood:</strong> Mental state, depression signs, motivation levels</li>
+            <li><strong>Daily Activities:</strong> Eating, sleeping, personal care independence</li>
+        </ul>
+        <p style="margin-top: 1rem; font-style: italic; color: #4a5568;">
+            Your observations are crucial for the doctor to make informed decisions about the patient's treatment plan.
+        </p>
+    </div>
+</div>
+{% endblock %}

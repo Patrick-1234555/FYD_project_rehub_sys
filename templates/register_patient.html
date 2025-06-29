@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Register New Patient{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2 style="color: #4a5568;">Register New Patient</h2>
+        <a href="{{ url_for('doctor_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+    
+    <form method="POST" action="{{ url_for('register_patient') }}">
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div class="form-group">
+                <label for="name">Patient Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" min="0" max="120" required>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="condition">Medical Condition:</label>
+            <textarea id="condition" name="condition" rows="3" required></textarea>
+        </div>
+        
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div class="form-group">
+                <label for="release_date">Release Date:</label>
+                <input type="date" id="release_date" name="release_date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="assigned_caregiver">Assigned Caregiver:</label>
+                <select id="assigned_caregiver" name="assigned_caregiver" required>
+                    <option value="">Select caregiver...</option>
+                    {% for caregiver in caregivers %}
+                    <option value="{{ caregiver }}">{{ caregiver }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="submit" class="btn" style="padding: 1rem 2rem; font-size: 1.1rem;">Register Patient</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

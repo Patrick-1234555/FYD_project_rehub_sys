@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block title %}Doctor Dashboard{% endblock %}
+
+{% block content %}
+<div class="management-links">
+    <a href="{{ url_for('register_patient') }}" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" x2="19" y1="8" y2="14"></line><line x1="16" x2="22" y1="11" y2="11"></line></svg>
+        Register New Patient
+    </a>
+    <a href="{{ url_for('register_caregiver') }}" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        Register New Caregiver
+    </a>
+    <a href="{{ url_for('manage_users') }}" class="btn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+        Manage Users
+    </a>
+</div>
+
+<div class="card">
+    <h2 style="margin-bottom: 1.5rem; color: #4a5568;">Patient Overview</h2>
+    
+    {% if patients %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Age</th>
+                <th>Condition</th>
+                <th>Release Date</th>
+                <th>Caregiver</th>
+                <th>Feedback Reports</th>
+                <th>Avg Behavior</th>
+                <th>Avg Recovery</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+            <tr>
+                <td><strong>{{ patient[1] }}</strong></td>
+                <td>{{ patient[2] }}</td>
+                <td>{{ patient[3] }}</td>
+                <td>{{ patient[4] }}</td>
+                <td>{{ patient[5] }}</td>
+                <td>{{ patient[6] or 0 }} reports</td>
+                <td>
+                    {% if patient[7] %}
+                        <div class="rating">
+                            <div class="rating-circle 
+                                {% if patient[7] >= 4.5 %}rating-excellent
+                                {% elif patient[7] >= 3.5 %}rating-good
+                                {% elif patient[7] >= 2.5 %}rating-fair
+                                {% elif patient[7] >= 1.5 %}rating-poor
+                                {% else %}rating-critical{% endif %}">
+                                {{ "%.1f"|format(patient[7]) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <span style="color: #718096;">No data</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if patient[8] %}
+                        <div class="rating">
+                            <div class="rating-circle 
+                                {% if patient[8] >= 4.5 %}rating-excellent
+                                {% elif patient[8] >= 3.5 %}rating-good
+                                {% elif patient[8] >= 2.5 %}rating-fair
+                                {% elif patient[8] >= 1.5 %}rating-poor
+                                {% else %}rating-critical{% endif %}">
+                                {{ "%.1f"|format(patient[8]) }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <span style="color: #718096;">No data</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('patient_details', patient_id=patient[0]) }}" class="btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View Details</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="text-align: center; color: #718096; font-size: 1.1rem;">No patients assigned yet.</p>
+    {% endif %}
+</div>
+
+<div class="card">
+    <h3 style="margin-bottom: 1rem; color: #4a5568;">Rating Scale Guide</h3>
+    <div class="grid" style="grid-template-columns: repeat(5, 1fr); gap: 1rem;">
+        <div style="text-align: center;">
+            <div class="rating-circle rating-excellent" style="margin: 0 auto 0.5rem;">5</div>
+            <p><strong>Excellent</strong><br>Outstanding progress</p>
+        </div>
+        <div style="text-align: center;">
+            <div class="rating-circle rating-good" style="margin: 0 auto 0.5rem;">4</div>
+            <p><strong>Good</strong><br>Good progress</p>
+        </div>
+        <div style="text-align: center;">
+            <div class="rating-circle rating-fair" style="margin: 0 auto 0.5rem;">3</div>
+            <p><strong>Fair</strong><br>Moderate progress</p>
+        </div>
+        <div style="text-align: center;">
+            <div class="rating-circle rating-poor" style="margin: 0 auto 0.5rem;">2</div>
+            <p><strong>Poor</strong><br>Limited progress</p>
+        </div>
+        <div style="text-align: center;">
+            <div class="rating-circle rating-critical" style="margin: 0 auto 0.5rem;">1</div>
+            <p><strong>Critical</strong><br>Needs attention</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
